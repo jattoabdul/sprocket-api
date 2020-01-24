@@ -1,0 +1,27 @@
+default: &default
+  adapter: postgresql
+  # encoding: unicode
+  encoding: utf8
+  sslmode: prefer
+  min_messages: warning
+  pool: <%= ENV.fetch('RAILS_MAX_THREADS') { 5 } %>
+  reaping_frequency: 10
+  timeout: 5000
+  variables:
+    statement_timeout: 60000
+
+development:
+  <<: *default
+  database: <%= ENV['DATABASE_NAME'] || 'sprocket_development' %>
+
+test:
+  <<: *default
+  database: <%= ENV['DATABASE_NAME'] || 'sprocket_test' %>
+
+staging:
+  <<: *default
+  database: <%= ENV['DATABASE_NAME'] || 'sprocket_staging' %>
+
+production:
+  <<: *default
+  database: <%= ENV['DATABASE_NAME'] || 'sprocket_production' %>
