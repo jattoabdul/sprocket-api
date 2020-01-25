@@ -67,7 +67,7 @@ end
 
 # GUARD / AUTO TEST
 group :test, :development do
-  gem 'factory_bot_rails', require: false
+  gem 'factory_bot_rails'
   gem 'faker', require: false
 end
 
@@ -75,6 +75,5 @@ end
 group :test do
   gem 'database_cleaner'
   gem 'mock_redis'
-  gem 'rspec-sidekiq'
   gem 'shoulda-matchers'
 end
