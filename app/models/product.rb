@@ -4,6 +4,9 @@ class Product < ApplicationRecord
 
   searchkick text_middle: %i(title description country price), callbacks: false
 
+  validates :title, presence: true
+  validates :price, presence: true
+
   after_commit :flush_cache!
   
   def search_data
