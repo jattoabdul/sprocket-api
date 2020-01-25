@@ -10,7 +10,6 @@ class Search
     options[:where] = where
     options[:order] = order
 
-    puts('got search  option here', options)
     search_class.search(query, options)
   end
 
@@ -24,8 +23,19 @@ class Search
 
   private def order
     if options[:sort_attribute].present?
-      order = options[:sort_order].presence || :asc
-      { options[:sort_attribute] => order }
+      order_options = {}
+      order_attr_value = options[:sort_order].presence.to_sym || :desc
+      if options[:sort_attribute] == 'relevance'
+        order_options[:_score] = order_attr_value
+      elsif options[:sort_attribute] == 'newest'
+        order_options[:updated_at] = order_attr_value
+      else
+        order_options[options[:sort_attribute] .to_sym] = order_attr_value
+      end
+
+      options.delete(:sort_attribute)
+      options.delete(:sort_order)
+      order_options
     else
      {}
     end
