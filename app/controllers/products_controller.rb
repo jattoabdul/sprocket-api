@@ -23,7 +23,7 @@ class ProductsController < ApplicationController
       limit: [params[:limit] && params[:limit].to_i || 100].compact.min,
       offset: [params[:offset] && params[:offset].to_i || 0].compact.min,
       misspellings: { edit_distance: 2, below: 1, fields: %i(title) }
-    }.merge(search_params.except(:query)).deep_symbolize_keys!
+    }.merge(search_params.except(:query, :limit, :offset)).deep_symbolize_keys!
 
     cache_key = "products:#{query || 'default'}#{options.fetch(:limit, '100')} \
     #{options.fetch(:offset, '0')}#{options.fetch(:country, '')} \
