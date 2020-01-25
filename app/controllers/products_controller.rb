@@ -16,7 +16,7 @@ class ProductsController < ApplicationController
     return render json: [] if params[:query].present? && params[:query].strip.size <= 1
 
       options = {
-        fields: ['title^5',  'country^2', {tags: :exact}, 'description', 'price'],
+        fields: ['title^5',  'country^4',  'description^3', {tags: :exact}, 'price^2'],
         operator: 'or',
         match: :text_middle,
         limit: [params[:limit] && params[:limit].to_i || 100].compact.min,
@@ -32,7 +32,6 @@ class ProductsController < ApplicationController
 
     render resource: @products
   rescue Searchkick::Error, StandardError => e
-    puts('got errored here', e)
     render json: []
   end
 

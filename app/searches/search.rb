@@ -7,16 +7,11 @@ class Search
   end
 
   def search
-    constraints = {
-      page: options[:page],
-      per_page: options[:per_page]
-    }
+    options[:where] = where
+    options[:order] = order
 
-    constraints[:where] = where
-    constraints[:order] = order
-
-    puts('got search  option here', constraints)
-    search_class.search(query, constraints)
+    puts('got search  option here', options)
+    search_class.search(query, options)
   end
 
   private def search_class
