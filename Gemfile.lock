@@ -318,7 +318,7 @@ DEPENDENCIES
   rspec-rails
   rspec-sidekiq
   rubocop (~> 0.58)
-  searchkick (~> 4.1)
+  searchkick
   shoulda-matchers
   spring
   spring-watcher-listen (~> 2.0.0)

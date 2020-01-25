@@ -42,7 +42,7 @@ gem 'jwt', '~> 2.2'
 gem 'nokogiri', '~> 1.10'
 
 # EXTERNAL SERVICES
-gem 'searchkick', '~> 4.1'
+gem 'searchkick'
 
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
