@@ -2,7 +2,7 @@ class Product < ApplicationRecord
   include Searchable
   include SerializableResource
 
-  searchkick text_middle: %i(title description country price)
+  searchkick text_middle: %i(title description country price), callbacks: false
 
   after_commit :flush_cache!
   
