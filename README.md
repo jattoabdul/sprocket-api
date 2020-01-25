@@ -1,24 +1,35 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
+API serving a product search react page as part of Sprocket Test
 
 * Ruby version
+- '2.5.6'
 
 * System dependencies
+- Rails ~> 5.2.1', '>= 5.2.1.1'
+- SearchKick ~> latest
+- Redis ~> 4.1
 
 * Configuration
+- 
 
 * Database creation
+- rails db:setup
 
 * Database initialization
+- rails db:migrate
+- rails db:seed
 
 * How to run the test suite
+- rspec
 
 * Services (job queues, cache servers, search engines, etc.)
+Alway run below code after any database operation in the heroku console:
+- `rails searchkick:reindex CLASS=Product`
+
+This is so due to the inability to setup a queue system like sidekiq.
 
 * Deployment instructions
+- Push to heroku (heroku create app-name && git push heroku master)
 
 * ...
