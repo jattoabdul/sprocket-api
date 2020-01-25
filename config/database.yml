@@ -25,3 +25,5 @@ staging:
 production:
   <<: *default
   database: <%= ENV['DATABASE_NAME'] || 'sprocket_production' %>
+  username: <%= ENV['DATABASE_USERNAME'] || 'postgres' %>
+  password: <%= ENV['DATABASE_PASSWORD'] || '' %>
