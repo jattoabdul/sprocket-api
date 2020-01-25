@@ -24,11 +24,14 @@ class ProductsController < ApplicationController
         misspellings: { edit_distance: 2, below: 1, fields: %i(title) }
       }.merge(search_params)
 
-    cache_key = "products:#{params.fetch(:query, 'default')}"
-    @products =  Rails.cache.fetch(cache_key) do
-      ProductSearch.new(query: params[:query], options: options)
-        .search
-    end
+    # cache_key = "products:#{params.fetch(:query, 'default')}#{options.fetch(:limit, '100')}#{options.fetch(:offset, '0')}#{options.fetch(:page, '')}#{options.fetch(:per_page, '')}"
+    # @products =  Rails.cache.fetch(cache_key) do
+    #   ProductSearch.new(query: params[:query], options: options)
+    #     .search
+    # end
+
+    @products =  ProductSearch.new(query: params[:query], options: options)
+      .search
 
     render resource: @products
   rescue Searchkick::Error, StandardError => e
@@ -66,7 +69,6 @@ class ProductsController < ApplicationController
 
   def search_params
     params.permit :page, :per_page, :sort_attribute, :sort_order, :country, :offset, :limit
-    #  :high_price, :low_price
   end
 
   def set_product

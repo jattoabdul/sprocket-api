@@ -5,7 +5,7 @@ class Product < ApplicationRecord
   # searchkick
   searchkick text_middle: %i(title description country price), callbacks: :async
 
-  after_commit :flush_cache!
+  # after_commit :flush_cache!
   
   def search_data
     {
@@ -19,8 +19,8 @@ class Product < ApplicationRecord
 
   private
 
-  def flush_cache!
-    # Clear products:* caches
-    Rails.cache.delete_matched 'products:*'
-  end
+  # def flush_cache!
+  #   # Clear products:* caches
+  #   Rails.cache.delete_matched 'products:*'
+  # end
 end
