@@ -13,25 +13,26 @@ class ProductsController < ApplicationController
   # GET /products/search
   def search
     # Don't hit database with less than 2 chars
-    return render json: [] if params[:query].present? && params[:query].strip.size <= 1
+    query = search_params.delete(:query)
+    return render json: [] if query.present? && query.strip.size <= 1
 
-      options = {
-        fields: ['title^5',  'country^4',  'description^3', {tags: :exact}, 'price^2'],
-        operator: 'or',
-        match: :text_middle,
-        limit: [params[:limit] && params[:limit].to_i || 100].compact.min,
-        offset: [params[:offset] && params[:offset].to_i || 0].compact.min,
-        misspellings: { edit_distance: 2, below: 1, fields: %i(title) }
-      }.merge(search_params)
+    options = {
+      fields: ['title^6',  'country^3',  'description', {tags: :exact}, 'price^2'],
+      operator: 'or',
+      match: :text_middle,
+      limit: [params[:limit] && params[:limit].to_i || 100].compact.min,
+      offset: [params[:offset] && params[:offset].to_i || 0].compact.min,
+      misspellings: { edit_distance: 2, below: 1, fields: %i(title) }
+    }.merge(search_params.except(:query)).deep_symbolize_keys!
 
-    # cache_key = "products:#{params.fetch(:query, 'default')}#{options.fetch(:limit, '100')}#{options.fetch(:offset, '0')}#{options.fetch(:page, '')}#{options.fetch(:per_page, '')}"
-    # @products =  Rails.cache.fetch(cache_key) do
-    #   ProductSearch.new(query: params[:query], options: options)
-    #     .search
-    # end
-
-    @products =  ProductSearch.new(query: params[:query], options: options)
-      .search
+    cache_key = "products:#{query || 'default'}#{options.fetch(:limit, '100')} \
+    #{options.fetch(:offset, '0')}#{options.fetch(:country, '')} \
+    #{options.fetch(:price, '')}#{options.fetch(:sort_order, '')} \
+    #{options.fetch(:sort_attribute, '')}"
+    @products =  Rails.cache.fetch(cache_key) do
+      ProductSearch.new(query: query, options: options)
+        .search
+    end
 
     render resource: @products
   rescue Searchkick::Error, StandardError => e
@@ -68,7 +69,7 @@ class ProductsController < ApplicationController
   end
 
   def search_params
-    params.permit :page, :per_page, :sort_attribute, :sort_order, :country, :offset, :limit
+    params.permit(:query, :sort_attribute, :sort_order, :country, :price, :offset, :limit)
   end
 
   def set_product
