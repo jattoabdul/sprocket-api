@@ -10,9 +10,9 @@ class ProductSearch < Search
     end
 
     if options[:price].present?
-      price_range = options.delete(:price).split(',').map(&:to_f)
-      # where[:price] = price_range[0]..price_range[1]
-      where[:price] = {gte: price_range[0], lte: price_range[1]}
+      price_start, price_end = options.delete(:price).split(',').map(&:to_f)
+      # where[:price] = price_start..price_end
+      where[:price] = { gte: price_start, lte: price_end }
     end
 
     where
