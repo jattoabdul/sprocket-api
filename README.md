@@ -11,7 +11,7 @@ API serving a product search react page as part of Sprocket Test
 - Redis ~> 4.1
 
 * Configuration
-- 
+- API Documentation => https://documenter.getpostman.com/view/1203729/SWT8hfF3
 
 * Database creation
 - rails db:setup
