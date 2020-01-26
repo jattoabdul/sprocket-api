@@ -34,7 +34,7 @@ class ProductsController < ApplicationController
         .search
     end
 
-    render resource: @products
+    render json: { products: @products, total: @products.total_count }
   rescue Searchkick::Error, StandardError => e
     render json: []
   end
