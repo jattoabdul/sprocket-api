@@ -14,7 +14,7 @@ class ProductsController < ApplicationController
   def search
     # Don't hit database with less than 2 chars
     query = search_params.delete(:query)
-    return render json: [] if query.present? && query.strip.size <= 1
+    return render json: { products: [], total: 0 } if query.present? && query.strip.size <= 1
 
     options = {
       fields: ['title^6',  'country^3',  'description', {tags: :exact}, 'price^2'],
@@ -36,7 +36,7 @@ class ProductsController < ApplicationController
 
     render json: { products: @products, total: @products.total_count }
   rescue Searchkick::Error, StandardError => e
-    render json: []
+    render json:  { products: [], total: 0 }
   end
 
   # POST /products
