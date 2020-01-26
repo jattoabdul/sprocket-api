@@ -24,26 +24,31 @@ RSpec.describe ProductsController, type: :controller do
 
       it 'returns products array with min query size' do
         get :search, params: { query: title.slice(-4, 4).to_s }, format: :json
-        expect(json(response).size).to be >= 1
-        expect(json(response).map { |v| v[:title] }).to include(title)
+        expect(json(response)[:products].size).to be >= 1
+        expect(json(response)[:total]).to be >= 1
+        expect(json(response)[:products].map { |v| v[:title] }).to include(title)
       end
 
       it 'returns empty array with less than min query size' do
         get :search, params: { query: '2' }, format: :json
-        expect(json(response)).to eq([])
+        expect(json(response)[:products]).to eq([])
       end
 
       context "when filtering by country" do
         it "should return only products for that country" do
           get :search, params: { query: title.slice(-4, 4).to_s, country: country }, format: :json
-          expect(json(response).size).to eql(1)
-          expect(json(response).map { |v| v[:country] }).to include(country)
+          expect(json(response).size).to eql(2)
+          expect(json(response)[:products].size).to eql(1)
+          expect(json(response)[:total]).to be >= 1
+          expect(json(response)[:products].map { |v| v[:country] }).to include(country)
         end
         
         it "should not return product for another country" do
           get :search, params: { query: title.slice(-4, 4).to_s, country: country }, format: :json
-          expect(json(response).size).to eql(1)
-          expect(json(response).map { |v| v[:country] }).not_to include('Canada')
+          expect(json(response).size).to eql(2)
+          expect(json(response)[:products].size).to eql(1)
+          expect(json(response)[:total]).to be >= 1
+          expect(json(response)[:products].map { |v| v[:country] }).not_to include('Canada')
         end
       end
     end
