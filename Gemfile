@@ -19,7 +19,7 @@ gem 'active_hash', '~> 2.3'
 
 # DATA
 gem 'pg', '~> 1.1'
-gem 'kaminari', '~> 1.1' 
+gem 'kaminari', '~> 1.2' 
 gem 'paranoia', '~> 2.4'
 gem 'ice_nine', '~> 0.11'
 gem 'textacular', '~> 5.0'
