@@ -39,7 +39,7 @@ gem 'oj', '~> 3.9'
 gem 'jbuilder', '~> 2.9'
 gem 'jsonapi-rails', '~> 0.4'
 gem 'jwt', '~> 2.2'
-gem 'nokogiri', '~> 1.10'
+gem 'nokogiri', '~> 1.12'
 
 # EXTERNAL SERVICES
 gem 'searchkick'
